@@ -20,14 +20,16 @@ public class LoginStatusServlet extends HttpServlet {
 
     Boolean isLoggedIn = userService.isUserLoggedIn();
     String url = "";
+    String accountUsername = "";
     if (isLoggedIn){
       url = userService.createLogoutURL("/");
+      accountUsername = userService.getCurrentUser().getEmail();
     } else {
       url = userService.createLoginURL("/");
     }
 
     String isLoggedInJson = "{ \"loginstatus\" : "
-      +isLoggedIn+", \"url\" : \""+url+"\" }";
+      +isLoggedIn+", \"url\" : \""+url+"\" , \"username\" : \""+accountUsername+ "\" }";
 
     response.getWriter().println(isLoggedInJson);
  
