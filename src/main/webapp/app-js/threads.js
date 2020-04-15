@@ -38,6 +38,7 @@ function validateThreadFormAndSubmit(){
 
 function initializePostThreadFormValidation(){
     $('#post-thread-form').validate({ // initialize the validator
+       // errorClass: 'text-danger',
         rules: {
             "threadTitle": {
                 required: true,
@@ -58,7 +59,15 @@ function initializePostThreadFormValidation(){
                 minlength: "Your thread body must be greater than 4 characters"
             }
 
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').removeClass('success').addClass('has-error has-feedback');
+
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("text-danger");
         }
+ 
     });
 
 

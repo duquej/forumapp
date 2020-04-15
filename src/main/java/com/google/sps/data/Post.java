@@ -7,15 +7,19 @@ public abstract class Post {
 
   private String post;
   private String accountUsername;
-  private int upvotes;
+  private long upvotes;
   private long timeSubmitted;
   private ArrayList<Long> keyReplies;
+  private long replyCount;
 
-  public Post(String post, String accountUsername, int upvotes, long timeSubmitted){
+  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Long> keyReplies, long replyCount){
       this.post = post;
       this.accountUsername = accountUsername;
       this.upvotes = upvotes;
       this.timeSubmitted = timeSubmitted;
+      this.keyReplies = keyReplies;
+      this.replyCount = replyCount;
+
   }
 
   public void addCommentKey(long replyKey){
@@ -46,11 +50,11 @@ public abstract class Post {
       return accountUsername;
   }
 
-  public int getUpvotes(){
+  public long getUpvotes(){
       return upvotes;
   }
 
-  public void setUpvotes(int upvotes){
+  public void setUpvotes(long upvotes){
       this.upvotes = upvotes;
   }
 
