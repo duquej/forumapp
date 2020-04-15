@@ -3,6 +3,7 @@ com/google/sps/data/Comment.class
 com/google/sps/data/Thread.class
 com/google/sps/users/Person.class
 com/google/sps/data/Post.class
+com/google/sps/servlets/ThreadPostServlet.class
 com/google/sps/servlets/LoginStatusServlet.class
 com/google/sps/users/Person$Role.class
 com/google/sps/servlets/DataServlet.class

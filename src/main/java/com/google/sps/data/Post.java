@@ -9,7 +9,7 @@ public abstract class Post {
   private String accountUsername;
   private int upvotes;
   private long timeSubmitted;
-  private ArrayList<Comment> replies;
+  private ArrayList<Long> keyReplies;
 
   public Post(String post, String accountUsername, int upvotes, long timeSubmitted){
       this.post = post;
@@ -18,12 +18,12 @@ public abstract class Post {
       this.timeSubmitted = timeSubmitted;
   }
 
-  public void addComment(Comment reply){
-      replies.add(reply);
+  public void addCommentKey(long replyKey){
+      keyReplies.add(replyKey);
   }
 
-  public ArrayList<Comment> getComments(){
-      return replies;
+  public ArrayList<Long> getKeyComments(){
+      return keyReplies;
   }
 
   public long getTimeSubmitted(){

@@ -7,9 +7,9 @@ async function showSignInButtonOrUserProfile(){
   const accountUsername = json.username;
 
   if (isLoggedIn) {
-    displaySignInOrSignOutButton(isLoggedIn,url,accountUsername);
+    displayPostLoginLogoutButton(isLoggedIn,url,accountUsername);
   } else {
-    displaySignInOrSignOutButton(isLoggedIn,url,accountUsername);
+    displayPostLoginLogoutButton(isLoggedIn,url,accountUsername);
   }
 
 
@@ -19,15 +19,17 @@ function start(){
     showSignInButtonOrUserProfile();
 }
 
-function displaySignInOrSignOutButton(loginStatus,url,username){
- 
-    var signOutButtonDOM = document.getElementById("sign-out-button");
-    var signInButtonDOM = document.getElementById("sign-in-button");
+function displayPostLoginLogoutButton(loginStatus,url,username){
+     displayOrHideAddNewPostButton(loginStatus);
 
+    var profileButtonDOM = document.getElementById("profile-button");
+    var signInButtonDOM = document.getElementById("sign-in-button");
+    var signOutButtonDOM = document.getElementById("sign-out-button");
+    
     if(loginStatus){
-        signOutButtonDOM.style.display="block";
+        profileButtonDOM.style.display="block";
         signOutButtonDOM.href = url;
-        signOutButtonDOM.text = username;
+        profileButtonDOM.text = username;
 
         signInButtonDOM.style.display= "none";
     } else {
@@ -35,6 +37,14 @@ function displaySignInOrSignOutButton(loginStatus,url,username){
         signInButtonDOM.href = url;
 
         signOutButtonDOM.style.display= "none";
+    }
+
+}
+
+function displayOrHideAddNewPostButton(isLoggedIn){
+    if (isLoggedIn){
+        const makePostButtonDom = document.getElementById("new-post-button");
+        makePostButtonDom.style.display= "block";
     }
 
 }
