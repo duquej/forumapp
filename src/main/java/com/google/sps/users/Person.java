@@ -6,14 +6,16 @@ public abstract class Person{
         ADMIN, MODERATOR, USER;
     }
 
+    private String userKey;
     private String accountUsername;
     private String nickname;
     private Role role;  //make this an ENUM
 
-    public Person(String accountUsername, String nickname, Role role){
+    public Person(String accountUsername, String nickname, Role role, String userKey){
         this.accountUsername = accountUsername;
         this.nickname = nickname;
         this.role = role;
+        this.userKey = userKey;
     }
 
     public Role getUserRole(){
