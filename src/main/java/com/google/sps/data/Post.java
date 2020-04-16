@@ -11,14 +11,16 @@ public abstract class Post {
   private long timeSubmitted;
   private ArrayList<Long> keyReplies;
   private long replyCount;
+  private String postKey;
 
-  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Long> keyReplies, long replyCount){
+  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Long> keyReplies, long replyCount, String postKey){
       this.post = post;
       this.accountUsername = accountUsername;
       this.upvotes = upvotes;
       this.timeSubmitted = timeSubmitted;
       this.keyReplies = keyReplies;
       this.replyCount = replyCount;
+      this.postKey = postKey;
 
   }
 

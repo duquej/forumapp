@@ -25,6 +25,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +34,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import com.google.sps.data.ForumThread;
+import org.ocpsoft.prettytime.*;
+
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/get-threads")
@@ -45,7 +49,7 @@ public class ThreadRetrievalServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<com.google.sps.data.Thread> threads = new ArrayList<>();
+    ArrayList<ForumThread> threads = new ArrayList<>();
     for (Entity entity : results.asIterable()){
       String title = (String) entity.getProperty("title");
       String body = (String) entity.getProperty("body");
@@ -54,8 +58,11 @@ public class ThreadRetrievalServlet extends HttpServlet {
       long replyCount = (long) entity.getProperty("replyCount");
       long timeSubmitted = (long) entity.getProperty("timeSubmitted");
       String accountEmail = (String) entity.getProperty("accountEmail");
+      String postKey = KeyFactory.keyToString(entity.getKey());
+      String timeAgoString = formattedTimeAgo(timeSubmitted);
 
-      com.google.sps.data.Thread thread = new com.google.sps.data.Thread(title,body,accountEmail,upvotes,timeSubmitted,replyKeys,replyCount);
+
+      ForumThread thread = new ForumThread(title,body,accountEmail,upvotes,timeSubmitted,replyKeys,replyCount,postKey,timeAgoString);
       threads.add(thread);
 
     }
@@ -65,10 +72,17 @@ public class ThreadRetrievalServlet extends HttpServlet {
 
   }
 
-  private static String convertToJson(ArrayList<com.google.sps.data.Thread> lst){
+  private static String convertToJson(ArrayList<ForumThread> lst){
     Gson gson = new Gson();
     String json = gson.toJson(lst);
     return json;  
+  }
+
+  private String formattedTimeAgo(long timeSubmitted){
+      PrettyTime pTime = new PrettyTime(new Date());
+      return pTime.format(new Date(timeSubmitted));
+
+
   }
 
 

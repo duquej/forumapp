@@ -16,7 +16,7 @@
 
 </head>
 
-<body onload="start();">
+<body onload="start(); getAllThreads();">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 	  <a class="navbar-brand" href="#">5g Forums</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +110,7 @@
 			<div class="col-8">
 				<h2>Discussion Board</h2>
 				<hr>
-				<div class="ideaList">
+				<div class="ideaList" id="ideaList">
 					 <div class="ideaList__inner cursorOverride" data-location="/ideas/crushrun">
                         <div class="ideaList__inner-top">
                             <h3 class="ideaList__inner-top-title">Oh Triton Curse Yee</h3>
@@ -119,6 +119,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                                         <path d="M0,10 C-6.76353751e-16,4.4771525 4.4771525,1.01453063e-15 10,0 C15.5228475,-1.01453063e-15 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 6.76353751e-16,15.5228475 0,10 Z M10,18 C14.418278,18 18,14.418278 18,10 C18,5.581722 14.418278,2 10,2 C5.581722,2 2,5.581722 2,10 C2,14.418278 5.581722,18 10,18 Z M10.7,7.46 L14.25,11 L12.84,12.41 L10,9.6 L7.17,12.4 L5.76,11 L10,6.76 L10.7,7.46 Z"/>
                                     </svg>
+                                    
                                 </div>
                             </div>
                             <div class="iUpVoteScore">100</div>
@@ -246,5 +247,7 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="app-js/authentication.js"></script>
   <script src="app-js/threads.js"></script>
+  <script src="app-js/displayFactory.js"></script>
+
 </body>
 </html>

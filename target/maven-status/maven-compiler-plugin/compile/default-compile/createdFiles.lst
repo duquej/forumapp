@@ -1,7 +1,7 @@
 com/google/sps/users/User.class
 com/google/sps/data/Comment.class
 com/google/sps/servlets/ThreadRetrievalServlet.class
-com/google/sps/data/Thread.class
+com/google/sps/data/ForumThread.class
 com/google/sps/users/Person.class
 com/google/sps/data/Post.class
 com/google/sps/servlets/ThreadPostServlet.class
