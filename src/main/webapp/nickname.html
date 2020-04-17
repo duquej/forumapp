@@ -1,0 +1,108 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Forum</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+
+
+
+</head>
+
+<body onload="start();">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  <a class="navbar-brand" href="#">5g Forums</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarText">
+		<ul class="navbar-nav mr-auto">
+		  <li class="nav-item active">
+			<a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+		  </li>
+		 
+		  <li class="nav-item">
+			<a class="nav-link" href="#">Source</a>
+		  </li>
+		</ul>
+
+        
+		<a class="btn btn-outline-dark" href="" role="button" style="text-transform:none; margin-right: 20px" id="sign-in-button">
+			<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+			  Login with Google
+		</a>
+
+        <div class="dropdown">
+            <a class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" href="" role="button" style="text-transform: none; display: none" id="profile-button" >
+                <span class="glyphicon glyphicon-user" aria-hidden="true" hidden></span>
+                User
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sign-out-button">
+              <a class="dropdown-item" href="nickname.html">Change nickname</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" id= "sign-out-button" href="#">Log out</a>
+            </div>
+        </div>
+
+       
+
+	  </div>
+	</nav>
+
+    <div class="alert alert-info alert-dismissable collapse" id="success-nickname-post-alert" style="margin-bottom: 0px" role="alert">
+        Your nickname has been successfully changed!
+    </div>
+
+    <div class="alert alert-danger alert-dismissable collapse" id="failed-nickname-post-alert" style="margin-bottom: 0px" role="alert" >
+        An error occured trying to change your nickname.
+    </div>
+
+  
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12" style="margin-top: 10px">
+				<h2>Set or Change your Nickname</h2>
+				<hr>
+			</div>
+		</div>
+        <div class="row">
+            <div class="col-5">
+                <form id="post-nickname-form">
+                    <div class="form-group">
+                        
+                        <label for="nickname" class="col-form-label">Nickname</label>
+                        <input type="text" class="form-control" name="nickname" id="nickname-input">
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" id="nickname-button" onclick="setNewNickname();">Change Nickname</button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+	
+	</div>
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="app-js/authentication.js"></script>
+  <script src="app-js/threads.js"></script>
+  <script src="app-js/nicknameFactory.js"></script>
+
+</body>
+</html>

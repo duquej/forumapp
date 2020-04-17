@@ -57,7 +57,6 @@ public class NicknameServlet extends HttpServlet {
     entity.setProperty("role","user");
     datastore.put(entity);
 
-    response.sendRedirect("/");
   }
 
   /**
@@ -73,7 +72,7 @@ public class NicknameServlet extends HttpServlet {
   /**
    * Returns the nickname of the user with email, or empty String if the user has not set a nickname.
    */
-  private String getUserNickname(String email) {
+  public static String getUserNickname(String email) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("UserInfo");
     query.setFilter(new Query.FilterPredicate("email", Query.FilterOperator.EQUAL, email));

@@ -1,7 +1,8 @@
+/home/johndduque/forumapp/src/main/java/com/google/sps/servlets/NicknameServlet.java
+/home/johndduque/forumapp/src/main/java/com/google/sps/data/ForumThread.java
 /home/johndduque/forumapp/src/main/java/com/google/sps/users/Person.java
 /home/johndduque/forumapp/src/main/java/com/google/sps/servlets/DataServlet.java
 /home/johndduque/forumapp/src/main/java/com/google/sps/data/Comment.java
-/home/johndduque/forumapp/src/main/java/com/google/sps/data/Thread.java
 /home/johndduque/forumapp/src/main/java/com/google/sps/servlets/ThreadPostServlet.java
 /home/johndduque/forumapp/src/main/java/com/google/sps/users/User.java
 /home/johndduque/forumapp/src/main/java/com/google/sps/data/Post.java

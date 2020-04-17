@@ -109,7 +109,7 @@ function createThreadElement(thread,count){
 
     const enterDiscussionOuterElement = $('<a/>',{
         class: "enterDiscussion",
-        href:"/thread/"+thread.postKey,
+        href:"/view-thread/"+thread.postKey,
         text: "Enter Discussion",
         id:"discussionOuterElement"+count
     });

@@ -23,7 +23,12 @@ public class LoginStatusServlet extends HttpServlet {
     String accountUsername = "";
     if (isLoggedIn){
       url = userService.createLogoutURL("/");
-      accountUsername = userService.getCurrentUser().getEmail();
+      String accountEmail = userService.getCurrentUser().getEmail();
+      accountUsername = NicknameServlet.getUserNickname(accountEmail);
+      if (accountUsername.equals("")){
+          accountUsername = accountEmail;
+      }
+
     } else {
       url = userService.createLoginURL("/");
     }
