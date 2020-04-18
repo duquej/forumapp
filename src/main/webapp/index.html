@@ -10,6 +10,7 @@
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 
@@ -18,7 +19,9 @@
 
 <body onload="start(); getAllThreads();">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <i class="fa fa-wpforms" style="margin-right: 5px"></i>
 	  <a class="navbar-brand" href="#">5g Forums</a>
+
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	  </button>
@@ -36,6 +39,7 @@
 		</ul>
 
         <a class="btn btn-primary" data-toggle="modal" data-target="#makePostModal" role="button" style="display: none; margin-right:5px" id="new-post-button" >
+
             New Post
         </a>
 		<a class="btn btn-outline-dark" href="" role="button" style="text-transform:none" id="sign-in-button">
@@ -44,9 +48,8 @@
 		</a>
 
         <div class="dropdown">
-            <a class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" href="" role="button" style="text-transform: none; display: none" id="profile-button" >
-                <span class="glyphicon glyphicon-user" aria-hidden="true" hidden></span>
-                User
+            <a class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" href="" role="button" style="display: none" id="profile-button" >
+                <i class="fa fa-user"></i>                
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sign-out-button">

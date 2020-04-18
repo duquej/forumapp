@@ -1,12 +1,13 @@
+com/google/sps/users/Person.class
+com/google/sps/data/Post.class
 com/google/sps/servlets/ViewThreadServlet.class
 com/google/sps/users/User.class
 com/google/sps/data/Comment.class
 com/google/sps/servlets/ThreadRetrievalServlet.class
 com/google/sps/data/ForumThread.class
+com/google/sps/servlets/PostCommentServlet.class
 com/google/sps/servlets/NicknameServlet.class
-com/google/sps/users/Person.class
-com/google/sps/data/Post.class
 com/google/sps/servlets/ThreadPostServlet.class
 com/google/sps/servlets/LoginStatusServlet.class
 com/google/sps/users/Person$Role.class
-com/google/sps/servlets/DataServlet.class
+com/google/sps/servlets/VerifyThreadRequestServlet.class

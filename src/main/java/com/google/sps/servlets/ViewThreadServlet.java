@@ -72,7 +72,7 @@ public class ViewThreadServlet extends HttpServlet {
     return json;  
   }
 
-  private Entity getEntityFromStringKeyOrFail(String key, HttpServletResponse response, DatastoreService datastore){
+  private static Entity getEntityFromStringKeyOrFail(String key, HttpServletResponse response, DatastoreService datastore){
     Entity threadEntity = null;
     try{
       Key threadKey = KeyFactory.stringToKey(key);
