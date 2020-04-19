@@ -106,6 +106,7 @@ function threadReplyElements(reply,appendId){
     dotCommentFooterFirstElement.appendTo("#footerMainCommentElement"+count);
     timeAgoCommentFooterElement.appendTo("#footerMainCommentElement"+count);
     dotSecondCommentFooterFirstElement.appendTo("#footerMainCommentElement"+count);
+    replyButtonElement.appendTo("#footerMainCommentElement"+count);
     repliesToReplyDiv.appendTo('#replyOuterDiv'+count);
 
     var currentReplyCount = count;

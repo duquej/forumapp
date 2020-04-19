@@ -65,7 +65,7 @@ public class PostCommentServlet extends HttpServlet {
     Entity replyEntity = getEntityFromStringKeyOrFail(replyKeyString,response,datastore);
     String commentReplyKeyGenerated = putCommentInDatabaseAndReturnKey(replyKeyString, datastore, replyComment, replyCommentUserEmail);
     updateReplyEntityWithNewComment(replyEntity,commentReplyKeyGenerated,datastore);
-    response.sendRedirect("/");
+    response.sendRedirect("/thread.html?t="+replyKeyString);
   }
 
    private static Entity getEntityFromStringKeyOrFail(String key, HttpServletResponse response, DatastoreService datastore){

@@ -59,12 +59,13 @@ public class ThreadRetrievalServlet extends HttpServlet {
       long replyCount = (long) entity.getProperty("replyCount");
       long timeSubmitted = (long) entity.getProperty("timeSubmitted");
       String accountEmail = (String) entity.getProperty("accountEmail");
+      String accountNickname = ViewThreadServlet.getNicknameFromEmailOrReturnEmail(accountEmail);
       String postKey = KeyFactory.keyToString(entity.getKey());
       String timeAgoString = formattedTimeAgo(timeSubmitted);
       ArrayList<Comment> emptyComments = new ArrayList<Comment>();
 
 
-      ForumThread thread = new ForumThread(title,body,accountEmail,upvotes,timeSubmitted,emptyComments,replyCount,postKey,timeAgoString);
+      ForumThread thread = new ForumThread(title,body,accountNickname,upvotes,timeSubmitted,emptyComments,replyCount,postKey,timeAgoString);
       threads.add(thread);
 
     }
@@ -73,6 +74,8 @@ public class ThreadRetrievalServlet extends HttpServlet {
     response.getWriter().println(json);
 
   }
+
+  
 
   private static String convertToJson(ArrayList<ForumThread> lst){
     Gson gson = new Gson();

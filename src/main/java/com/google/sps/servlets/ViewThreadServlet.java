@@ -60,6 +60,7 @@ public class ViewThreadServlet extends HttpServlet {
     long threadReplyCount = (long) threadEntity.getProperty("replyCount");
     long threadTimeSubmitted = (long) threadEntity.getProperty("timeSubmitted");
     String threadAccountEmail = (String) threadEntity.getProperty("accountEmail");
+    String threadAccountNickname = getNicknameFromEmailOrReturnEmail(threadAccountEmail);
     String threadKey = KeyFactory.keyToString(threadEntity.getKey());
     ArrayList<Comment> threadReplyComments = null;
     try{
@@ -70,7 +71,7 @@ public class ViewThreadServlet extends HttpServlet {
         return;
     }
 
-    ForumThread thread = new ForumThread(threadTitle,threadBody,threadAccountEmail,threadUpvotes,threadTimeSubmitted,threadReplyComments,threadReplyCount,threadKey,"");
+    ForumThread thread = new ForumThread(threadTitle,threadBody,threadAccountNickname,threadUpvotes,threadTimeSubmitted,threadReplyComments,threadReplyCount,threadKey,"");
 
     String json = convertToJson(thread);
     response.setContentType("application/json;");
@@ -109,6 +110,7 @@ public class ViewThreadServlet extends HttpServlet {
                 Entity replyEntity = datastore.get(keyId);
                 String replyComment = (String) replyEntity.getProperty("comment");
                 String replyAccountEmail = (String) replyEntity.getProperty("accountEmail");
+                String replyAccountNickname = getNicknameFromEmailOrReturnEmail(replyAccountEmail);
                 long replyUpvotes = (long) replyEntity.getProperty("upvotes");
                 ArrayList<String> replyKeys = (ArrayList<String>) replyEntity.getProperty("replyKeys");
                 long replyTimeSubmitted = (long) replyEntity.getProperty("timeSubmitted");
@@ -117,7 +119,7 @@ public class ViewThreadServlet extends HttpServlet {
                 String replyTimeAgoFormatted = formattedTimeAgo(replyTimeSubmitted);
                 ArrayList<Comment> replyCommentReplies = convertReplyKeysToComments(replyKeys, datastore); 
 
-                Comment comment = new Comment(replyComment, replyAccountEmail, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyKey, replyTimeAgoFormatted);
+                Comment comment = new Comment(replyComment, replyAccountNickname, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyKey, replyTimeAgoFormatted);
                 commentReplies.add(comment);
             }
       }
@@ -128,6 +130,14 @@ public class ViewThreadServlet extends HttpServlet {
   private String formattedTimeAgo(long timeSubmitted){
       PrettyTime pTime = new PrettyTime(new Date());
       return pTime.format(new Date(timeSubmitted));
+  }
+
+  public static String getNicknameFromEmailOrReturnEmail(String accountEmail){
+      String accountNickname = NicknameServlet.getUserNickname(accountEmail);
+      if (accountNickname.equals("")){
+          return accountEmail;
+      }
+      return accountNickname;
   }
 
 
