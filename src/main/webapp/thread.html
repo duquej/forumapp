@@ -12,13 +12,13 @@
   <link rel="stylesheet" href="css/custom.css">
 
 
-
-
 </head>
 
-<body onload="start();">
+<body onload="start(); getRequest();">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand" href="#">5g Forums</a>
+      <i class="fa fa-wpforms" style="margin-right: 5px"></i>
+	  <a class="navbar-brand" href="#">Cornell Nexus Forums</a>
+
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	  </button>
@@ -27,22 +27,24 @@
 		  <li class="nav-item active">
 			<a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
 		  </li>
-		 
+		  
 		  <li class="nav-item">
 			<a class="nav-link" href="#">Source</a>
 		  </li>
 		</ul>
 
-        
-		<a class="btn btn-outline-dark" href="" role="button" style="text-transform:none; margin-right: 20px" id="sign-in-button">
+        <a class="btn btn-primary" data-toggle="modal" data-target="#makePostModal" role="button" style="display: none; margin-right:5px" id="new-post-button" >
+
+            New Post
+        </a>
+		<a class="btn btn-outline-dark" href="" role="button" style="text-transform:none" id="sign-in-button">
 			<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
 			  Login with Google
 		</a>
 
         <div class="dropdown">
-            <a class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" href="" role="button" style="text-transform: none; display: none" id="profile-button" >
-                <span class="glyphicon glyphicon-user" aria-hidden="true" hidden></span>
-                User
+            <a class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" href="" role="button" style="display: none" id="profile-button" >
+                <i class="fa fa-user"></i>                
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sign-out-button">
@@ -57,14 +59,6 @@
 	  </div>
 	</nav>
 
-    <div class="alert alert-info alert-dismissable collapse" id="success-nickname-post-alert" style="margin-bottom: 0px" role="alert">
-        Your nickname has been successfully changed!
-    </div>
-
-    <div class="alert alert-danger alert-dismissable collapse" id="failed-nickname-post-alert" style="margin-bottom: 0px" role="alert" >
-        An error occured trying to change your nickname.
-    </div>
-
   
 
 	<div class="container-fluid">
@@ -76,178 +70,8 @@
 		</div>
         <div class="row">
             <div class="col-9">
-                <div class="ideaList">
-                    <div class="ideaList__inner">
-                        <div class="ideaList__inner-top">
-							<h3 class="ideaList__inner-top-title">stealthy</h3>
-                            <div class="votingButton" data-upvote="/api/ideas/5b6a79c02e21980004709012/heart">
-                                <div class="iUpVoteIcon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                        <path d="M0,10 C-6.76353751e-16,4.4771525 4.4771525,1.01453063e-15 10,0 C15.5228475,-1.01453063e-15 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 6.76353751e-16,15.5228475 0,10 Z M10,18 C14.418278,18 18,14.418278 18,10 C18,5.581722 14.418278,2 10,2 C5.581722,2 2,5.581722 2,10 C2,14.418278 5.581722,18 10,18 Z M10.7,7.46 L14.25,11 L12.84,12.41 L10,9.6 L7.17,12.4 L5.76,11 L10,6.76 L10.7,7.46 Z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="iUpVoteScore">6</div>
-                        </div>
-                        <div class="iDesc">you want to be alone. you think there's someone 
-                            approaching so you are trying to hear footsteps. or you have suspicions that 
-                            someone is following you. or you might just want to snoop on others' conversations
-                            the local train to home. What do you use? Stealthy. This app combines the latest 
-                            noise-canceling technology and AI to understand and eliminate noises you don't want 
-                            to hear and amplify the sound of the thing you want to hear without breaking the 
-                            clarity of the sound. perfect for people who want to be very aware of his/her 
-                            surrounding, whether it be the Australian outback or your local commute. 
-                        </div>
-                        <div class="iFooter">
-                            <div class="iFooterA">
-                                <img class="iAuthorImg iaiSI" src="https://avatars.io/twitter/safdar_zr" alt="Author">
-                                <div class="iAuthor aiSI">safdar_zr</div>
-                            </div>
-                        </div>
-                        <hr>
-                        <form>
-                            <div class="container" style="margin-left: 0px">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <textarea class="form-control" name="comment" placeholder="reply"></textarea>
-                                    </div>
-                                    <div class="col-3">
-                                        <button type="button" class="btn btn-primary" id="postservlet-thread-button">Post Reply</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <hr>
-                        <ul >
-                            <div class="commentContainer" id="5b6a8c772e21980004709013" style="margin-left: 0px">
-                                <div class="upVoteCommentContainer">
-                                    <form class="replycommentButton" method="POST" action="/api/specificIdea/5b6a8c772e21980004709013/vote">
-                                    <button class="specificVotingButton" type="submit">
-                                        <div class="uvcIcon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6">
-                                                <polygon points="5.237 .743 9 4.503 7.505 6 4.495 3.016 1.495 5.989 0 4.503 4.495 0"></polygon>
-                                            </svg>
-                                        </div>
-                                    </button>
-                                    </form>
-                                    <div class="upVoteCommentValue">2</div>
-                                    </div>
-                                <div class="specificComment">You need this</div>
-                                    <div class="scFooter" data-comment="5b6a8c772e21980004709013" data-idea="5b6a79c02e21980004709012">
-                                        <img class="iAuthorImg" src="https://avatars.io/twitter/TahsinAmio" alt="Author">
-                                        <div class="iAuthorSI">TahsinAmio</div><div class="iDot">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="iTimeAgo">over 1 year ago</div>
-                                        <div class="iDot">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="iReply">REPLY</div>
-                                        </div>
-                                    <div class="replies">
-                                        <div class="commentContainer" id="5b6ab20e7b19e50004063ad1">
-                                            <div class="upVoteCommentContainer">
-                                                <form class="replycommentButton" method="POST" action="/api/specificIdea/5b6ab20e7b19e50004063ad1/vote">
-                                                <button class="specificVotingButton" type="submit">
-                                                    <div class="uvcIcon">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6">
-                                                             <polygon points="5.237 .743 9 4.503 7.505 6 4.495 3.016 1.495 5.989 0 4.503 4.495 0"></polygon>
-                                                        </svg>
-                                                    </div>
-                                                </button>
-                                                </form>
-                                                <div class="upVoteCommentValue">1</div>
-                                            </div>
-                                            <div class="specificComment">why is that? is safdar a suspicioous chap?</div>
-                                                <div class="scFooter" data-comment="5b6ab20e7b19e50004063ad1" data-idea="5b6a79c02e21980004709012">
-                                                    <img class="iAuthorImg" src="https://avatars.io/twitter/harrydry" alt="Author">
-                                                    <div class="iAuthorSI">harrydry</div><div class="iDot">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                            <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="iTimeAgo">over 1 year ago</div>
-                                                    <div class="iDot">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                            <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="iReply">REPLY</div>
-                                                </div>
-                                            <div class="replies">
-                                                <div class="commentContainer" id="5b6ab3dc7b19e50004063ad3">
-                                                    <div class="upVoteCommentContainer">
-                                                        <form class="replycommentButton" method="POST" action="/api/specificIdea/5b6ab3dc7b19e50004063ad3/vote">
-                                                        <button class="specificVotingButton" type="submit">
-                                                            <div class="uvcIcon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6">
-                                                                    <polygon points="5.237 .743 9 4.503 7.505 6 4.495 3.016 1.495 5.989 0 4.503 4.495 0"></polygon>
-                                                                </svg>
-                                                            </div>
-                                                        </button>
-                                                    </form>
-                                                    <div class="upVoteCommentValue">1</div>
-                                                    </div>
-                                                    <div class="specificComment">not really harry lololol</div>
-                                                        <div class="scFooter" data-comment="5b6ab3dc7b19e50004063ad3" data-idea="5b6a79c02e21980004709012">
-                                                            <img class="iAuthorImg" src="https://avatars.io/twitter/safdar_zr" alt="Author">
-                                                            <div class="iAuthorSI">safdar_zr</div><div class="iDot">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                                    <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                                                </svg>
-                                                            </div>
-                                                        <div class="iTimeAgo">over 1 year ago</div>
-                                                        <div class="iDot">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                                <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                                            </svg>
-                                                        </div>
-                                                        <div class="iReply">REPLY</div>
-                                                        </div>
-                                                        <div class="replies">
-                                                            <div class="commentContainer" id="5b6ab43e7b19e50004063ad7">
-                                                                <div class="upVoteCommentContainer">
-                                                                    <form class="replycommentButton" method="POST" action="/api/specificIdea/5b6ab43e7b19e50004063ad7/vote">
-                                                                    <button class="specificVotingButton" type="submit">
-                                                                        <div class="uvcIcon">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6">
-                                                                                <polygon points="5.237 .743 9 4.503 7.505 6 4.495 3.016 1.495 5.989 0 4.503 4.495 0"></polygon>
-                                                                            </svg>
-                                                                        </div>
-                                                                    </button>
-                                                                    </form>
-                                                                    <div class="upVoteCommentValue">1</div>
-                                                                </div>
-                                                                <div class="specificComment">the max i'll do w/ it is a couple of pranks</div>
-                                                                <div class="scFooter" data-comment="5b6ab43e7b19e50004063ad7" data-idea="5b6a79c02e21980004709012">
-                                                                    <img class="iAuthorImg" src="https://avatars.io/twitter/safdar_zr" alt="Author">
-                                                                    <div class="iAuthorSI">safdar_zr</div>
-                                                                    <div class="iDot">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                                            <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <div class="iTimeAgo">over 1 year ago</div>
-                                                                    <div class="iDot">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="2" height="2" viewBox="0 0 2 2">
-                                                                            <circle cx="204" cy="437" r="1" fill="#333" fill-opacity=".7" fill-rule="evenodd" transform="translate(-203 -436)"></circle>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <div class="iReply">REPLY</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                        </ul>
-                    </div>
+                <div class="ideaList" id="ideaList">
+                    
 
                 </div>
 

@@ -37,13 +37,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import com.google.sps.data.ForumThread;
+import com.google.sps.data.Comment;
+import org.ocpsoft.prettytime.*;
+
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/view-thread/*")
 public class ViewThreadServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
     //validate thread URL here.
     String threadKeyString = request.getPathInfo().substring(1);
 
@@ -53,13 +56,21 @@ public class ViewThreadServlet extends HttpServlet {
     String threadTitle = (String) threadEntity.getProperty("title");
     String threadBody = (String) threadEntity.getProperty("body");
     Long threadUpvotes = (Long) threadEntity.getProperty("upvotes");
-    ArrayList<Long> threadReplyKeys = (ArrayList<Long>) threadEntity.getProperty("replyKeys");
+    ArrayList<String> threadReplyKeys = (ArrayList<String>) threadEntity.getProperty("replyKeys");
     long threadReplyCount = (long) threadEntity.getProperty("replyCount");
     long threadTimeSubmitted = (long) threadEntity.getProperty("timeSubmitted");
     String threadAccountEmail = (String) threadEntity.getProperty("accountEmail");
     String threadKey = KeyFactory.keyToString(threadEntity.getKey());
-    
-    ForumThread thread = new ForumThread(threadTitle,threadBody,threadAccountEmail,threadUpvotes,threadTimeSubmitted,threadReplyKeys,threadReplyCount,threadKey,"");
+    ArrayList<Comment> threadReplyComments = null;
+    try{
+        threadReplyComments = convertReplyKeysToComments(threadReplyKeys, datastore);
+    } catch(Exception e){
+        e.printStackTrace();
+        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        return;
+    }
+
+    ForumThread thread = new ForumThread(threadTitle,threadBody,threadAccountEmail,threadUpvotes,threadTimeSubmitted,threadReplyComments,threadReplyCount,threadKey,"");
 
     String json = convertToJson(thread);
     response.setContentType("application/json;");
@@ -76,6 +87,7 @@ public class ViewThreadServlet extends HttpServlet {
     Entity threadEntity = null;
     try{
       Key threadKey = KeyFactory.stringToKey(key);
+      System.out.println("thread key: "+threadKey);
       threadEntity = datastore.get(threadKey);
     } catch(IllegalArgumentException | EntityNotFoundException e){
       e.printStackTrace();
@@ -86,6 +98,36 @@ public class ViewThreadServlet extends HttpServlet {
     return threadEntity;
 
 
+  }
+
+  private ArrayList<Comment> convertReplyKeysToComments(ArrayList<String> keys, DatastoreService datastore) throws EntityNotFoundException{
+      ArrayList<Comment> commentReplies = new ArrayList<Comment>();
+      if (keys != null){
+
+        for (String keyIdString : keys) {
+                Key keyId= KeyFactory.stringToKey(keyIdString);
+                Entity replyEntity = datastore.get(keyId);
+                String replyComment = (String) replyEntity.getProperty("comment");
+                String replyAccountEmail = (String) replyEntity.getProperty("accountEmail");
+                long replyUpvotes = (long) replyEntity.getProperty("upvotes");
+                ArrayList<String> replyKeys = (ArrayList<String>) replyEntity.getProperty("replyKeys");
+                long replyTimeSubmitted = (long) replyEntity.getProperty("timeSubmitted");
+                long replyRepliesCount = (long) replyEntity.getProperty("replyCount");
+                String replyKey = KeyFactory.keyToString(replyEntity.getKey());
+                String replyTimeAgoFormatted = formattedTimeAgo(replyTimeSubmitted);
+                ArrayList<Comment> replyCommentReplies = convertReplyKeysToComments(replyKeys, datastore); 
+
+                Comment comment = new Comment(replyComment, replyAccountEmail, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyKey, replyTimeAgoFormatted);
+                commentReplies.add(comment);
+            }
+      }
+      return commentReplies;
+
+  }
+
+  private String formattedTimeAgo(long timeSubmitted){
+      PrettyTime pTime = new PrettyTime(new Date());
+      return pTime.format(new Date(timeSubmitted));
   }
 
 

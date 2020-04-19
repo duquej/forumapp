@@ -1,6 +1,8 @@
 package com.google.sps.data;
 
 import java.util.ArrayList;
+import com.google.appengine.api.datastore.Key;
+
 
 
 public abstract class Post {
@@ -9,11 +11,13 @@ public abstract class Post {
   private String accountUsername;
   private long upvotes;
   private long timeSubmitted;
-  private ArrayList<Long> keyReplies;
+  private ArrayList<Comment> keyReplies;
   private long replyCount;
   private String postKey;
+  private String formattedTimeAgo;
 
-  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Long> keyReplies, long replyCount, String postKey){
+
+  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Comment> keyReplies, long replyCount, String postKey, String formattedTimeAgo){
       this.post = post;
       this.accountUsername = accountUsername;
       this.upvotes = upvotes;
@@ -21,14 +25,15 @@ public abstract class Post {
       this.keyReplies = keyReplies;
       this.replyCount = replyCount;
       this.postKey = postKey;
+      this.formattedTimeAgo = formattedTimeAgo;
 
   }
 
-  public void addCommentKey(long replyKey){
+  public void addCommentKey(Comment replyKey){
       keyReplies.add(replyKey);
   }
 
-  public ArrayList<Long> getKeyComments(){
+  public ArrayList<Comment> getKeyComments(){
       return keyReplies;
   }
 

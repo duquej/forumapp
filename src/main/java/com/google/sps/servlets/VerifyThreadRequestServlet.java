@@ -43,8 +43,10 @@ public class VerifyThreadRequestServlet extends HttpServlet {
       response.sendRedirect("/");
       return;
     } 
-    RequestDispatcher view = request.getRequestDispatcher("/thread.html");
-    view.forward(request, response);
+
+    String threadKeyString = request.getPathInfo().substring(1);
+    response.sendRedirect("/thread.html?t="+threadKeyString);
+
   }
 
 

@@ -26,6 +26,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Key;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,15 +55,16 @@ public class ThreadRetrievalServlet extends HttpServlet {
       String title = (String) entity.getProperty("title");
       String body = (String) entity.getProperty("body");
       long upvotes = (long) entity.getProperty("upvotes");
-      ArrayList<Long> replyKeys = (ArrayList<Long>) entity.getProperty("replyKeys");
+      ArrayList<String> replyKeys = (ArrayList<String>) entity.getProperty("replyKeys");
       long replyCount = (long) entity.getProperty("replyCount");
       long timeSubmitted = (long) entity.getProperty("timeSubmitted");
       String accountEmail = (String) entity.getProperty("accountEmail");
       String postKey = KeyFactory.keyToString(entity.getKey());
       String timeAgoString = formattedTimeAgo(timeSubmitted);
+      ArrayList<Comment> emptyComments = new ArrayList<Comment>();
 
 
-      ForumThread thread = new ForumThread(title,body,accountEmail,upvotes,timeSubmitted,replyKeys,replyCount,postKey,timeAgoString);
+      ForumThread thread = new ForumThread(title,body,accountEmail,upvotes,timeSubmitted,emptyComments,replyCount,postKey,timeAgoString);
       threads.add(thread);
 
     }

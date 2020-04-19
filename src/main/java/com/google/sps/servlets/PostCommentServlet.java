@@ -31,8 +31,9 @@ import javax.servlet.ServletException;
 import com.google.sps.data.ForumThread;
 import org.ocpsoft.prettytime.*;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+
+import com.google.appengine.api.datastore.KeyFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -62,9 +63,9 @@ public class PostCommentServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity replyEntity = getEntityFromStringKeyOrFail(replyKeyString,response,datastore);
-    Key commentReplyKeyGenerated = putCommentInDatabaseAndReturnKey(replyKeyString, datastore, replyComment, replyCommentUserEmail);
+    String commentReplyKeyGenerated = putCommentInDatabaseAndReturnKey(replyKeyString, datastore, replyComment, replyCommentUserEmail);
     updateReplyEntityWithNewComment(replyEntity,commentReplyKeyGenerated,datastore);
-
+    response.sendRedirect("/");
   }
 
    private static Entity getEntityFromStringKeyOrFail(String key, HttpServletResponse response, DatastoreService datastore){
@@ -81,29 +82,42 @@ public class PostCommentServlet extends HttpServlet {
     return replyEntity;
   }
 
-  private void updateReplyEntityWithNewComment(Entity replyEntity, Key commentReplyKey, DatastoreService datastore){
-      ArrayList<Key> replyKeys = (ArrayList<Key>) replyEntity.getProperty("replyKeys");
+  private void updateReplyEntityWithNewComment(Entity replyEntity, String commentReplyKey, DatastoreService datastore){
+      ArrayList<String> replyKeys = (ArrayList<String>) replyEntity.getProperty("replyKeys");
+      if (replyKeys == null){
+          replyKeys = new ArrayList<String>();
+      }
       replyKeys.add(commentReplyKey);
+
       replyEntity.setProperty("replyKeys",replyKeys);
 
       long replyCount = (long) replyEntity.getProperty("replyCount");
       replyEntity.setProperty("replyCount", replyCount+1);
+      datastore.put(replyEntity);
 
   }
 
-  private Key putCommentInDatabaseAndReturnKey(String replyKey, DatastoreService datastore, String comment, String accountEmail){
-      Entity commentEntity = new Entity("Comment");
+  private String putCommentInDatabaseAndReturnKey(String replyKey, DatastoreService datastore, String comment, String accountEmail){
+      Key commentKeyGenerated = datastore.allocateIds("Comment", 1).getStart();
+      String keyString = KeyFactory.keyToString(commentKeyGenerated);
+      Entity commentEntity = new Entity(commentKeyGenerated);
       commentEntity.setProperty("comment",comment);
       commentEntity.setProperty("replyKey", replyKey);
       commentEntity.setProperty("accountEmail", accountEmail);
       commentEntity.setProperty("upvotes",0);
-      commentEntity.setProperty("replyKeys", Arrays.asList(""));
+
+      ArrayList<String> replyKeys = new ArrayList<String>();
+      commentEntity.setProperty("replyKeys", replyKeys);
       commentEntity.setProperty("timeSubmitted",System.currentTimeMillis());
       commentEntity.setProperty("replyCount",0);
 
-      datastore.put(commentEntity);
 
-      return (Key)commentEntity.getKey();
+      datastore.put(commentEntity);
+      System.out.println("comment placed in database?");
+
+
+
+      return keyString;
 
   }
 

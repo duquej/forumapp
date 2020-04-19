@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.datastore.Key;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
+
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/post-thread")
@@ -60,7 +63,10 @@ public class ThreadPostServlet extends HttpServlet {
         threadEntity.setProperty("title",threadTitle);
         threadEntity.setProperty("body",threadBody);
         threadEntity.setProperty("upvotes",0);
-        threadEntity.setProperty("replyKeys", Arrays.asList(""));
+
+        ArrayList<String> keys = new ArrayList<String>();
+        threadEntity.setProperty("replyKeys", keys);
+
         threadEntity.setProperty("replyCount",0);
         threadEntity.setProperty("timeSubmitted",System.currentTimeMillis());
 
