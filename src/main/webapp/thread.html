@@ -10,6 +10,8 @@
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 
 </head>
@@ -33,10 +35,8 @@
 		  </li>
 		</ul>
 
-        <a class="btn btn-primary" data-toggle="modal" data-target="#makePostModal" role="button" style="display: none; margin-right:5px" id="new-post-button" >
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#makePostModal" style="display: none; margin-right:5px" id="new-post-button">New Post</button>
 
-            New Post
-        </a>
 		<a class="btn btn-outline-dark" href="" role="button" style="text-transform:none" id="sign-in-button">
 			<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
 			  Login with Google
@@ -58,6 +58,36 @@
 
 	  </div>
 	</nav>
+
+    <div class="modal fade" id="makePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="makePostModalTitle">New Thread</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="post-thread-form">
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Thread Title</label>
+                <input type="text" class="form-control" name="threadTitle" id="thread-title">
+            </div>
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Body Text:</label>
+                <textarea class="form-control" name="bodyText" id="body-text"></textarea>
+            </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="postservlet-thread-button">Make Post</button>
+        </div>
+        </div>
+    </div>
+    </div>
 
   
 
@@ -93,6 +123,7 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="app-js/authentication.js"></script>
   <script src="app-js/loadthread.js"></script>
+  <script src="app-js/threads.js"></script>
 
 </body>
 </html>

@@ -61,11 +61,12 @@ function initializePostThreadFormValidation(){
 
         },
         highlight: function(element) {
-            $(element).closest('.form-group').removeClass('success').addClass('has-error has-feedback');
+            $(element).closest('.form-group').removeClass('success').addClass('text-danger');
 
         },
         unhighlight: function(element) {
-            $(element).removeClass("text-danger");
+            $(element).closest('.form-group').removeClass('text-danger').addClass('text-success');
+
         }
  
     });

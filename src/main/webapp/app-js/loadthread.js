@@ -31,6 +31,11 @@ function threadReplyElements(reply,appendId){
         id:"specificButtonIconElement"+count
     }); 
 
+    const upvoteIconElement = $('<i/>',{
+        class:"fa fa-arrow-up"
+    });
+
+
     const upvoteCommentValElement = $('<div/>',{
         class:"upVoteCommentValue",
         text: reply.upvotes
@@ -67,6 +72,11 @@ function threadReplyElements(reply,appendId){
         id: "footerCommentDotFirst"+count
     });
 
+    const footerCircleDotElement = $('<i/>',{
+        class:"fa fa-circle",
+        style:"font-size: 4px;"
+    });
+
    
     const timeAgoCommentFooterElement = $('<div/>',{
         class: "iTimeAgo",
@@ -76,6 +86,11 @@ function threadReplyElements(reply,appendId){
     const dotSecondCommentFooterFirstElement = $('<div/>',{
         class: "iDot",
         id: "footerCommentDotSecond"+count
+    });
+
+    const footerSecCircleDotElement = $('<i/>',{
+        class:"fa fa-circle",
+        style:"font-size: 4px;"
     });
 
     const replyButtonElement = $('<div/>',{
@@ -97,15 +112,20 @@ function threadReplyElements(reply,appendId){
     replyDivForm.appendTo('#replyUpvoteDiv'+count);
     replyCommentButtonElement.appendTo('#replyDivForm'+count);
     specificButtonIconElement.appendTo("#replyCommentButtonEl"+count);
+    upvoteIconElement.appendTo("#specificButtonIconElement"+count);
     upvoteCommentValElement.appendTo('#replyUpvoteDiv'+count);
     specificCommentDiv.appendTo('#replyOuterDiv'+count);
 
     footerMainCommentElement.appendTo('#replyOuterDiv'+count);
     footerCommetImageElement.appendTo("#footerMainCommentElement"+count);
     authorCommentFooterElement.appendTo("#footerMainCommentElement"+count);
+
+    footerCircleDotElement.appendTo("footerCommentDotFirst"+count);
+
     dotCommentFooterFirstElement.appendTo("#footerMainCommentElement"+count);
     timeAgoCommentFooterElement.appendTo("#footerMainCommentElement"+count);
     dotSecondCommentFooterFirstElement.appendTo("#footerMainCommentElement"+count);
+    footerSecCircleDotElement.appendTo("footerCommentDotSecond"+count);
     replyButtonElement.appendTo("#footerMainCommentElement"+count);
     repliesToReplyDiv.appendTo('#replyOuterDiv'+count);
 
@@ -212,18 +232,10 @@ function createThreadElements(thread){
         id: 'upvoteElement'
     });
 
-    const svgElement = $('<svg/>',{
-        xmlns:'http://www.w3.org/2000/svg',
-        'width': '20',
-        'height': '20',
-        'viewBox': "0 0 20 20",
-        
-        id: 'svgElement'
+    const upvoteIconElement = $('<i/>',{
+        class:"fa fa-arrow-up"
     });
 
-    const upvotePathElement=  $('<path/>',{
-        d: "M0,10 C-6.76353751e-16,4.4771525 4.4771525,1.01453063e-15 10,0 C15.5228475,-1.01453063e-15 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 6.76353751e-16,15.5228475 0,10 Z M10,18 C14.418278,18 18,14.418278 18,10 C18,5.581722 14.418278,2 10,2 C5.581722,2 2,5.581722 2,10 C2,14.418278 5.581722,18 10,18 Z M10.7,7.46 L14.25,11 L12.84,12.41 L10,9.6 L7.17,12.4 L5.76,11 L10,6.76 L10.7,7.46 Z"
-    });
 
     const upvoteScoreElement = $('<div/>',{
         class: "iUpVoteScore",
@@ -265,8 +277,7 @@ function createThreadElements(thread){
     threadTitleElement.appendTo('#innerTopElement');
     votingButtonElement.appendTo('#innerTopElement');
     upvoteElement.appendTo('#votingButtonElement');
-    svgElement.appendTo('#upvoteElement');
-    upvotePathElement.appendTo('#svgElement');
+    upvoteIconElement.appendTo('#upvoteElement');
     upvoteScoreElement.appendTo('#innerTopElement');
     threadBodyElement.appendTo("#ideaListParent");
 
