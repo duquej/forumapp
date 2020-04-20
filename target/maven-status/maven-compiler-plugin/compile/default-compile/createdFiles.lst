@@ -1,3 +1,4 @@
+com/google/sps/servlets/UpdatePostUpvoteServlet.class
 com/google/sps/users/Person.class
 com/google/sps/data/Post.class
 com/google/sps/servlets/ViewThreadServlet.class
