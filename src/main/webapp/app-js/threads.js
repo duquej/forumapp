@@ -20,6 +20,10 @@ function validateThreadFormAndSubmit(){
                                 $("#success-thread-post-alert").fadeOut("slow");
                                 },4000);
                             });
+                        
+                        if (data.redirect){
+                            window.location.href = data.redirect;
+                        }
                  
                     },
                     error: function(data){

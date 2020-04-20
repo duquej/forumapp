@@ -1,5 +1,10 @@
 var count = 0;
 
+function fixReplyFormCounter(countAtReply,reply){
+    var elementToAttachTo = "repliesToReplyDiv"+countAtReply;
+    return function(){  createReplyFormElements(reply,elementToAttachTo,false) }
+}
+
 function threadReplyElements(reply,appendId){
     count++;
     const replyOuterDiv = $('<div/>',{
@@ -54,6 +59,7 @@ function threadReplyElements(reply,appendId){
         id: "footerMainCommentElement"+count
     });
 
+
     const footerCommetImageElement = $('<img/>',{
         class: "iAuthorImg",
         src:"https://avatars.io/twitter/Jamesbrge",
@@ -98,6 +104,7 @@ function threadReplyElements(reply,appendId){
         text: "Reply"
     });
 
+
     const repliesToReplyDiv = $('<div/>',{
         class: "replies",
         id: "repliesToReplyDiv"+count
@@ -128,7 +135,9 @@ function threadReplyElements(reply,appendId){
     footerSecCircleDotElement.appendTo("footerCommentDotSecond"+count);
     replyButtonElement.appendTo("#footerMainCommentElement"+count);
     repliesToReplyDiv.appendTo('#replyOuterDiv'+count);
+    replyButtonElement.on("click", fixReplyFormCounter(count,reply));
 
+  
     var currentReplyCount = count;
     if (reply.keyReplies.length >= 1){
         reply.keyReplies.forEach(replyObj => {
@@ -144,46 +153,47 @@ function threadReplyElements(reply,appendId){
 
 }
 
-function createReplyFormElements(thread){
+function createReplyFormElements(thread,appendToElement,isThread){
+    count++;
     const outerFormElement = $('<form/>',{
         action: "POST",
         action:"/post-comment/"+thread.postKey,
-        id: 'replyForm',
+        id: 'replyForm'+count,
     }); 
 
     const outerFormDiv = $('<div/>',{
         class: "container",
         style: "margin-left: 0px",
-        id: 'outerFormDiv',
+        id: 'outerFormDiv'+count,
     }); 
 
     const outerFormRowDiv = $('<div/>',{
         class: "row",
-        id: 'outerRowDiv',
+        id: 'outerRowDiv'+count,
     }); 
 
     const firstFormColDiv = $('<div/>',{
         class: "col-9",
-        id: 'firstFormColDiv',
+        id: 'firstFormColDiv'+count,
     }); 
 
     const firstFormColInput= $('<textarea/>',{
         class:"form-control",
         name:"comment",
         placeholder:"reply",
-        id: 'firstFormColInput',
+        id: 'firstFormColInput'+count,
     }); 
 
     const secondFormColDiv = $('<div/>',{
         class: "col-3",
-        id: 'secondFormColDiv',
+        id: 'secondFormColDiv'+count,
     }); 
 
     const secondFormSubmitButton = $('<button/>',{
         type:"submit",
         class:"btn btn-primary",
         text: "Reply",
-        id: 'secondFormSubmitButton',
+        id: 'secondFormSubmitButton'+count,
     }); 
 
     const formDividerUpper = $('<hr/>',{
@@ -192,15 +202,21 @@ function createReplyFormElements(thread){
     const formDividerLower = $('<hr/>',{     
     });
 
-    formDividerUpper.appendTo('#ideaListParent');
-    outerFormElement.appendTo('#ideaListParent');
-    formDividerLower.appendTo('#ideaListParent');
-    outerFormDiv.appendTo('#replyForm');
-    outerFormRowDiv.appendTo("#outerFormDiv");
-    firstFormColDiv.appendTo("#outerRowDiv");
-    firstFormColInput.appendTo("#firstFormColDiv");
-    secondFormColDiv.appendTo("#outerRowDiv");
-    secondFormSubmitButton.appendTo("#secondFormColDiv");
+    if (isThread){
+        formDividerUpper.appendTo('#'+appendToElement);
+        outerFormElement.appendTo('#'+appendToElement);
+        formDividerLower.appendTo('#'+appendToElement);
+    } else {
+        formDividerUpper.insertBefore('#'+appendToElement);
+        outerFormElement.insertBefore('#'+appendToElement);
+        formDividerLower.insertBefore('#'+appendToElement);
+    }
+    outerFormDiv.appendTo('#replyForm'+count);
+    outerFormRowDiv.appendTo("#outerFormDiv"+count);
+    firstFormColDiv.appendTo("#outerRowDiv"+count);
+    firstFormColInput.appendTo("#firstFormColDiv"+count);
+    secondFormColDiv.appendTo("#outerRowDiv"+count);
+    secondFormSubmitButton.appendTo("#secondFormColDiv"+count);
 
 }
 
@@ -287,7 +303,7 @@ function createThreadElements(thread){
     authorFooterElement.appendTo("#subFooterElement");
 
     //----------
-    createReplyFormElements(thread);
+    createReplyFormElements(thread,"ideaListParent",true);
     const replyListElement = $('<ul/>',{
         id: 'replyListElement',
     }); 

@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,14 +53,24 @@ public class ThreadPostServlet extends HttpServlet {
         String threadTitle = request.getParameter("threadTitle");
         String threadBodyText = request.getParameter("bodyText");
         String userEmail = userService.getCurrentUser().getEmail();
-        storeThreadToDatabase(threadTitle, threadBodyText, userEmail);
+        String threadStringKeyGenerated = storeThreadToDatabase(threadTitle, threadBodyText, userEmail);
+
+        //response.sendRedirect("/thread.html?t="+threadStringKeyGenerated);
+        String url = "/thread.html?t="+threadStringKeyGenerated;
+        String json = "{ \"redirect\" : \""+ url +"\" }";
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
+
 
 
 
     }
 
-    private void storeThreadToDatabase(String threadTitle, String threadBody, String userEmail){
-        Entity threadEntity = new Entity("Thread");
+    private String storeThreadToDatabase(String threadTitle, String threadBody, String userEmail){
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Key threadKeyGenerated = datastore.allocateIds("Thread", 1).getStart();
+
+        Entity threadEntity = new Entity(threadKeyGenerated);
         threadEntity.setProperty("title",threadTitle);
         threadEntity.setProperty("body",threadBody);
         threadEntity.setProperty("upvotes",0);
@@ -71,9 +82,9 @@ public class ThreadPostServlet extends HttpServlet {
         threadEntity.setProperty("timeSubmitted",System.currentTimeMillis());
 
         threadEntity.setProperty("accountEmail",userEmail);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(threadEntity);
 
+        return KeyFactory.keyToString(threadKeyGenerated);
 
 
     }

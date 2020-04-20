@@ -117,9 +117,10 @@ public class ViewThreadServlet extends HttpServlet {
                 long replyRepliesCount = (long) replyEntity.getProperty("replyCount");
                 String replyKey = KeyFactory.keyToString(replyEntity.getKey());
                 String replyTimeAgoFormatted = formattedTimeAgo(replyTimeSubmitted);
+                String replyThreadKey = (String) replyEntity.getProperty("threadKey");
                 ArrayList<Comment> replyCommentReplies = convertReplyKeysToComments(replyKeys, datastore); 
 
-                Comment comment = new Comment(replyComment, replyAccountNickname, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyKey, replyTimeAgoFormatted);
+                Comment comment = new Comment(replyComment, replyAccountNickname, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyThreadKey, replyKey, replyTimeAgoFormatted);
                 commentReplies.add(comment);
             }
       }
