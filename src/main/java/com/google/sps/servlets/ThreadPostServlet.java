@@ -82,6 +82,7 @@ public class ThreadPostServlet extends HttpServlet {
         threadEntity.setProperty("timeSubmitted",System.currentTimeMillis());
 
         threadEntity.setProperty("accountEmail",userEmail);
+        threadEntity.setProperty("usersUpvoted", keys);
         datastore.put(threadEntity);
 
         return KeyFactory.keyToString(threadKeyGenerated);

@@ -15,9 +15,10 @@ public abstract class Post {
   private long replyCount;
   private String postKey;
   private String formattedTimeAgo;
+  private ArrayList<String> peopleWhoUpvotedPost;
 
 
-  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Comment> keyReplies, long replyCount, String postKey, String formattedTimeAgo){
+  public Post(String post, String accountUsername, long upvotes, long timeSubmitted,ArrayList<Comment> keyReplies, long replyCount, String postKey, String formattedTimeAgo, ArrayList<String> peopleWhoUpvotedPost){
       this.post = post;
       this.accountUsername = accountUsername;
       this.upvotes = upvotes;
@@ -26,6 +27,7 @@ public abstract class Post {
       this.replyCount = replyCount;
       this.postKey = postKey;
       this.formattedTimeAgo = formattedTimeAgo;
+      this.peopleWhoUpvotedPost = peopleWhoUpvotedPost;
 
   }
 

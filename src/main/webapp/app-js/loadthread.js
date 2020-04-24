@@ -1,5 +1,17 @@
 var count = 0;
 
+$(document).ready(function(){
+    $(".specificVotingButton").on('click', function(event){
+        console.log("something happened here.")
+    //event.stopPropagation();
+    //event.stopImmediatePropagation();
+    //(... rest of your JS code)
+    });
+});
+
+
+
+
 function fixReplyFormCounter(countAtReply,reply){
     var elementToAttachTo = "repliesToReplyDiv"+countAtReply;
     return function(){  createReplyFormElements(reply,elementToAttachTo,false) }
@@ -19,9 +31,8 @@ function threadReplyElements(reply,appendId){
     });
 
     const replyDivForm = $('<form/>',{
-        method:"POST",
         class:"replycommentButton",
-        action:"/upvote/"+reply.postKey,
+        "data-upvote": reply.postKey,
         id: 'replyDivForm'+count,
     }); 
 

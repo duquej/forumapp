@@ -38,9 +38,59 @@ public class UpdatePostUpvoteServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    String postKeyString = request.getPathInfo().substring(1);
-    //relation of user to that post
-    //if none then gen new. and upvote it. otherwise dont. 
+    UserService userService = UserServiceFactory.getUserService();
+
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/");
+      return;
+    }
+
+    String postKeyString = request.getParameter("postKey");
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    Entity entityPost = getEntityFromStringKeyOrFail(postKeyString, response, datastore);
+    
+    String userLoggedInEmail = userService.getCurrentUser().getEmail();
+
+    updatePostUpvoteCountAndListForUser(entityPost,userLoggedInEmail, datastore);
+    
+
+
+  }
+
+  private void updatePostUpvoteCountAndListForUser(Entity postEntity, String accountUserEmail, DatastoreService datastore){
+      ArrayList<String> postUsersUpvotedList = (ArrayList<String>) postEntity.getProperty("usersUpvoted");
+      long postUpvotes = (long) postEntity.getProperty("upvotes");
+
+      if (postUsersUpvotedList.contains(accountUserEmail)){
+          postEntity.setProperty("upvotes",postUpvotes-1);
+          postUsersUpvotedList.remove(accountUserEmail);
+      } else {
+          postEntity.setProperty("upvotes",postUpvotes+1);
+          postUsersUpvotedList.add(accountUserEmail);
+      }
+      postEntity.setProperty("usersUpvoted",postUsersUpvotedList);
+      datastore.put(postEntity);
+
+      
+      
+  }
+
+  private static Entity getEntityFromStringKeyOrFail(String key, HttpServletResponse response, DatastoreService datastore){
+    Entity threadEntity = null;
+    try{
+      Key threadKey = KeyFactory.stringToKey(key);
+      System.out.println("thread key: "+threadKey);
+      threadEntity = datastore.get(threadKey);
+    } catch(IllegalArgumentException | EntityNotFoundException e){
+      e.printStackTrace();
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      return null;
+    }
+
+    return threadEntity;
+
 
   }
 

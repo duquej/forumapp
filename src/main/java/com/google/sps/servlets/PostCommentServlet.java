@@ -141,10 +141,10 @@ public class PostCommentServlet extends HttpServlet {
       commentEntity.setProperty("timeSubmitted",System.currentTimeMillis());
       commentEntity.setProperty("replyCount",0);
       commentEntity.setProperty("threadKey",threadKey);
+      commentEntity.setProperty("usersUpvoted", replyKeys);
 
 
       datastore.put(commentEntity);
-      System.out.println("comment placed in database?");
 
       return keyString;
 

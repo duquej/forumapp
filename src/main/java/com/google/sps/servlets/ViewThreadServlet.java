@@ -62,6 +62,7 @@ public class ViewThreadServlet extends HttpServlet {
     String threadAccountEmail = (String) threadEntity.getProperty("accountEmail");
     String threadAccountNickname = getNicknameFromEmailOrReturnEmail(threadAccountEmail);
     String threadKey = KeyFactory.keyToString(threadEntity.getKey());
+    ArrayList<String> threadPeopleUpvoted = (ArrayList<String>) threadEntity.getProperty("usersUpvoted");
     ArrayList<Comment> threadReplyComments = null;
     try{
         threadReplyComments = convertReplyKeysToComments(threadReplyKeys, datastore);
@@ -71,7 +72,7 @@ public class ViewThreadServlet extends HttpServlet {
         return;
     }
 
-    ForumThread thread = new ForumThread(threadTitle,threadBody,threadAccountNickname,threadUpvotes,threadTimeSubmitted,threadReplyComments,threadReplyCount,threadKey,"");
+    ForumThread thread = new ForumThread(threadTitle,threadBody,threadAccountNickname,threadUpvotes,threadTimeSubmitted,threadReplyComments,threadReplyCount,threadKey,"",threadPeopleUpvoted);
 
     String json = convertToJson(thread);
     response.setContentType("application/json;");
@@ -119,8 +120,9 @@ public class ViewThreadServlet extends HttpServlet {
                 String replyTimeAgoFormatted = formattedTimeAgo(replyTimeSubmitted);
                 String replyThreadKey = (String) replyEntity.getProperty("threadKey");
                 ArrayList<Comment> replyCommentReplies = convertReplyKeysToComments(replyKeys, datastore); 
+                ArrayList<String> replyUsersUpvoted = replyEntity.getProperty("usersUpvoted");
 
-                Comment comment = new Comment(replyComment, replyAccountNickname, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyThreadKey, replyKey, replyTimeAgoFormatted);
+                Comment comment = new Comment(replyComment, replyAccountNickname, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyThreadKey, replyKey, replyTimeAgoFormatted, replyUsersUpvoted);
                 commentReplies.add(comment);
             }
       }
