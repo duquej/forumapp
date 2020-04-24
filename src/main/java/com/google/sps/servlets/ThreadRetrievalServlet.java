@@ -62,10 +62,11 @@ public class ThreadRetrievalServlet extends HttpServlet {
       String accountNickname = ViewThreadServlet.getNicknameFromEmailOrReturnEmail(accountEmail);
       String postKey = KeyFactory.keyToString(entity.getKey());
       String timeAgoString = formattedTimeAgo(timeSubmitted);
+      ArrayList<String> peopleWhoUpvotedPost = (ArrayList<String>) entity.getProperty("usersUpvoted");
       ArrayList<Comment> emptyComments = new ArrayList<Comment>();
 
 
-      ForumThread thread = new ForumThread(title,body,accountNickname,upvotes,timeSubmitted,emptyComments,replyCount,postKey,timeAgoString);
+      ForumThread thread = new ForumThread(title,body,accountNickname,upvotes,timeSubmitted,emptyComments,replyCount,postKey,timeAgoString,peopleWhoUpvotedPost);
       threads.add(thread);
 
     }

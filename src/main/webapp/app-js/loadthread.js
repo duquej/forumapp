@@ -1,11 +1,11 @@
 var count = 0;
 
-$(document).ready(function(){
-    $(".specificVotingButton").on('click', function(event){
+$(document).ready(function() {
+
+    $(document).on('click', '.specificVotingButton', function(){
+        //$(this).addClass("toggled");
         console.log("something happened here.")
-    //event.stopPropagation();
-    //event.stopImmediatePropagation();
-    //(... rest of your JS code)
+
     });
 });
 
@@ -38,7 +38,7 @@ function threadReplyElements(reply,appendId){
 
     const replyCommentButtonElement = $('<button/>',{
         class:"specificVotingButton",
-        type:"submit",
+        type:"button",
         id: "replyCommentButtonEl"+count
     }); 
 

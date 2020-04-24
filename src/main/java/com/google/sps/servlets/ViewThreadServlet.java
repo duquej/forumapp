@@ -120,7 +120,7 @@ public class ViewThreadServlet extends HttpServlet {
                 String replyTimeAgoFormatted = formattedTimeAgo(replyTimeSubmitted);
                 String replyThreadKey = (String) replyEntity.getProperty("threadKey");
                 ArrayList<Comment> replyCommentReplies = convertReplyKeysToComments(replyKeys, datastore); 
-                ArrayList<String> replyUsersUpvoted = replyEntity.getProperty("usersUpvoted");
+                ArrayList<String> replyUsersUpvoted = (ArrayList<String>)replyEntity.getProperty("usersUpvoted");
 
                 Comment comment = new Comment(replyComment, replyAccountNickname, replyTimeSubmitted, replyUpvotes, replyCommentReplies, replyRepliesCount, replyKey, replyThreadKey, replyKey, replyTimeAgoFormatted, replyUsersUpvoted);
                 commentReplies.add(comment);

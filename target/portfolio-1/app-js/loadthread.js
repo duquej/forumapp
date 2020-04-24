@@ -1,5 +1,17 @@
 var count = 0;
 
+$(document).ready(function() {
+
+    $(document).on('click', '.specificVotingButton', function(){
+        //$(this).addClass("toggled");
+        console.log("something happened here.")
+
+    });
+});
+
+
+
+
 function fixReplyFormCounter(countAtReply,reply){
     var elementToAttachTo = "repliesToReplyDiv"+countAtReply;
     return function(){  createReplyFormElements(reply,elementToAttachTo,false) }
@@ -19,15 +31,14 @@ function threadReplyElements(reply,appendId){
     });
 
     const replyDivForm = $('<form/>',{
-        method:"POST",
         class:"replycommentButton",
-        action:"/upvote/"+reply.postKey,
+        "data-upvote": reply.postKey,
         id: 'replyDivForm'+count,
     }); 
 
     const replyCommentButtonElement = $('<button/>',{
         class:"specificVotingButton",
-        type:"submit",
+        type:"button",
         id: "replyCommentButtonEl"+count
     }); 
 
