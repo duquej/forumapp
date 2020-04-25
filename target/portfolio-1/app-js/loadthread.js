@@ -2,15 +2,32 @@ var count = 0;
 
 $(document).ready(function() {
 
-    $(document).on('click', '.specificVotingButton', function(){
-        //$(this).addClass("toggled");
-        console.log("something happened here.")
-
-    });
+    upvoteDownvotePostAndAdjustPostUpvotes();
 });
 
 
+function upvoteDownvotePostAndAdjustPostUpvotes(){
+    $(document).on('click', '.specificVotingButton', function(){
+        var postKey = $(this).parent().attr("data-upvote");   
+        console.log("postkey: "+postKey);
 
+        var elementChildren = $(this).children("div.uvcIcon").find("i");     
+        console.log(elementChildren.attr("class"));
+
+        if (elementChildren.attr("class") == "fa fa-arrow-up"){
+            elementChildren.removeClass("fa fa-arrow-up");
+            elementChildren.addClass("fa fa-arrow-down");
+
+        } else {
+            elementChildren.removeClass("fa fa-arrow-down");
+            elementChildren.addClass("fa fa-arrow-up");
+
+        }
+        
+
+    });
+
+}
 
 function fixReplyFormCounter(countAtReply,reply){
     var elementToAttachTo = "repliesToReplyDiv"+countAtReply;
