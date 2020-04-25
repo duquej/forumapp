@@ -9,11 +9,10 @@ $(document).ready(function() {
 function upvoteDownvotePostAndAdjustPostUpvotes(){
     $(document).on('click', '.specificVotingButton', function(){
         var postKey = $(this).parent().attr("data-upvote");   
-        console.log("postkey: "+postKey);
-
+        var upvoteCountEl = $(this).parent().parent().children("div.upVoteCommentValue");
         var elementChildren = $(this).children("div.uvcIcon").find("i");     
-        console.log(elementChildren.attr("class"));
 
+        sendUpvoteDownvoteRequestToServlet(postKey, upvoteCountEl);
         if (elementChildren.attr("class") == "fa fa-arrow-up"){
             elementChildren.removeClass("fa fa-arrow-up");
             elementChildren.addClass("fa fa-arrow-down");
@@ -29,9 +28,40 @@ function upvoteDownvotePostAndAdjustPostUpvotes(){
 
 }
 
+function sendUpvoteDownvoteRequestToServlet(postKey,upvoteCountEl){
+    //console.log("calling sendupvotedownvoterequest");
+    $.ajax({
+        type:"POST",
+        url: "upvote-post",
+        data: jQuery.param({ "postKey": postKey}),
+        success: function(data){
+            var postUpvotes= data.upvotes;
+            upvoteCountEl.text(postUpvotes);
+        },
+        error: function(data){
+            alert("Something has gone wrong with upvoting!");
+
+                }
+        });
+}
+                 
+
 function fixReplyFormCounter(countAtReply,reply){
     var elementToAttachTo = "repliesToReplyDiv"+countAtReply;
     return function(){  createReplyFormElements(reply,elementToAttachTo,false) }
+}
+
+function getProperUpvoteIconClass(usersWhoUpvotedPost){
+    console.log(usersWhoUpvotedPost);
+    console.log("accUsernameFromAuth: ",accountUsername);
+
+    if ((usersWhoUpvotedPost == undefined) || !usersWhoUpvotedPost.includes(accountUsername)){
+        return "fa fa-arrow-up"
+    } else {
+        return "fa fa-arrow-down"
+    }
+
+
 }
 
 function threadReplyElements(reply,appendId){
@@ -63,9 +93,11 @@ function threadReplyElements(reply,appendId){
         class:"uvcIcon",
         id:"specificButtonIconElement"+count
     }); 
-
+            
+            
     const upvoteIconElement = $('<i/>',{
-        class:"fa fa-arrow-up"
+        //class:"fa fa-arrow-up"
+        class: getProperUpvoteIconClass(reply.peopleWhoUpvotedPost)
     });
 
 

@@ -1,10 +1,11 @@
+var accountUsername;
 
 async function showSignInButtonOrUserProfile(){
   const response = await fetch('/loginstatus');
   const json = await response.json();
   const isLoggedIn = json.loginstatus;
   const url = json.url;
-  const accountUsername = json.username;
+  accountUsername = json.username;
 
   if (isLoggedIn) {
     displayPostLoginLogoutButton(isLoggedIn,url,accountUsername);

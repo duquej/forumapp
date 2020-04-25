@@ -38,11 +38,11 @@ import java.util.ArrayList;
 
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/upvote-post/*")
+@WebServlet("/upvote-post")
 public class UpdatePostUpvoteServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     UserService userService = UserServiceFactory.getUserService();
 
     if (!userService.isUserLoggedIn()) {
@@ -58,25 +58,37 @@ public class UpdatePostUpvoteServlet extends HttpServlet {
     
     String userLoggedInEmail = userService.getCurrentUser().getEmail();
 
-    updatePostUpvoteCountAndListForUser(entityPost,userLoggedInEmail, datastore);
-    
+    long newPostupvotes = updatePostUpvoteCountAndListForUser(entityPost,userLoggedInEmail, datastore);
+
+    String json = "{ \"upvotes\" : \"" + newPostupvotes + "\"}";
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
 
 
   }
 
-  private void updatePostUpvoteCountAndListForUser(Entity postEntity, String accountUserEmail, DatastoreService datastore){
+  private long updatePostUpvoteCountAndListForUser(Entity postEntity, String accountUserEmail, DatastoreService datastore){
+      String nicknameOrEmail = ViewThreadServlet.getNicknameFromEmailOrReturnEmail(accountUserEmail);
       ArrayList<String> postUsersUpvotedList = (ArrayList<String>) postEntity.getProperty("usersUpvoted");
+      if (postUsersUpvotedList == null){
+          postUsersUpvotedList = new ArrayList<String>();
+      }
+      
       long postUpvotes = (long) postEntity.getProperty("upvotes");
 
-      if (postUsersUpvotedList.contains(accountUserEmail)){
-          postEntity.setProperty("upvotes",postUpvotes-1);
-          postUsersUpvotedList.remove(accountUserEmail);
+      if (postUsersUpvotedList.contains(nicknameOrEmail)){
+          postUpvotes--;
+          postUsersUpvotedList.remove(nicknameOrEmail);
       } else {
-          postEntity.setProperty("upvotes",postUpvotes+1);
-          postUsersUpvotedList.add(accountUserEmail);
+          postUpvotes++;
+          postUsersUpvotedList.add(nicknameOrEmail);
       }
+
+      postEntity.setProperty("upvotes",postUpvotes);
       postEntity.setProperty("usersUpvoted",postUsersUpvotedList);
       datastore.put(postEntity);
+
+      return postUpvotes;
 
       
       
